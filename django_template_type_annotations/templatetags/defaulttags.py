@@ -12,9 +12,11 @@ def do_var(variable, variable_type_string):
 
 @register.tag(name='vars')
 def do_vars(parser, token):
-    nodelist = parser.parse(('endvars',))
+    nodelist = parser.parse(('endvars', ))
 
-    # Validate annotation format
+    # Validate annotation format. Not sure we really need this.
+    # Raise exceptions in templates may be not good idea.
+    # Maybe better idea to keep validation process to editors and tools and skip all logic in runtime.
     for node in nodelist:
         annotations = node.s.split('\n')
 
