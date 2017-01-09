@@ -1,0 +1,29 @@
+sudo: false
+language: python
+os:
+  - linux
+python:
+  - 2.7
+  - 3.4
+  - 3.5
+  - 3.6
+  - pypy
+env:
+  - DJANGO=1.4
+  - DJANGO=1.5
+  - DJANGO=1.6
+  - DJANGO=1.7
+  - DJANGO=1.8
+  - DJANGO=1.9
+  - DJANGO=1.10
+cache:
+  directories:
+    - $HOME/.cache/pip
+install: pip install tox-travis coveralls coverage flake8 Django==$DJANGO
+script:
+  - flake8 .
+  - coverage run --source oscheck setup.py test
+
+after_success:
+  - coverage report
+  - coveralls
