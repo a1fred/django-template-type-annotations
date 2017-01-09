@@ -22,7 +22,7 @@ cache:
 install: pip install tox-travis coveralls coverage flake8 Django==$DJANGO
 script:
   - flake8 .
-  - coverage run --source runtests.py test
+  - coverage run --source django_template_type_annotations runtests.py
 
 after_success:
   - coverage report
