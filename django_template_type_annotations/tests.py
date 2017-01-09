@@ -14,8 +14,8 @@ class TemplateTypeAnnotationTests(TestCase):
         self.assertEqual(
             self._render_template_string("""
 {% vars %}
-request 'django.http.HttpRequest'
-object_list 'django.db.models.query.QuerySet'
+request: django.http.HttpRequest
+object_list: django.db.models.query.QuerySet
 {% endvars %}
 Hello
 
@@ -23,11 +23,26 @@ Hello
             'Hello'
         )
 
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError, r'Incorrect type annotation string: .*'):
             self._render_template_string("""
-{% vars %}
-object_list 'django.db.models.query.QuerySet' asd
-'django.db.models.query.QuerySet'
-{% endvars %}
-Hello
-""")
+                {% vars %}
+                :'django.db.models.query.QuerySet':
+                {% endvars %}
+                Hello
+            """)
+
+        with self.assertRaisesRegex(ValueError, r'Empty variable name in annotation string: .*'):
+            self._render_template_string("""
+                {% vars %}
+                :'django.db.models.query.QuerySet'
+                {% endvars %}
+                Hello
+            """)
+
+        with self.assertRaisesRegex(ValueError, r'Empty type in annotation string: .*'):
+            self._render_template_string("""
+                {% vars %}
+                'django.db.models.query.QuerySet':
+                {% endvars %}
+                Hello
+            """)

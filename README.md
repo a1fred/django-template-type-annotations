@@ -12,7 +12,8 @@ I created two tags for one-line and multiline annotation.
 or
 
 {% vars %}
-request 'django.http.HttpRequest'
-object_list 'django.db.models.query.QuerySet'
+request: django.http.HttpRequest
+object_list: django.db.models.query.QuerySet
+object_list_or_none: typing.Union[None, django.db.models.query.QuerySet]
 {% endvars %}
 ```
